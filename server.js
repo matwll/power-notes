@@ -2,6 +2,7 @@ const uuid = require("uuid");
 const express = require("express");
 const path = require('path');
 const fs = require('fs');
+const savedNotes = require('./db/db.json');
 const { json } = require("express");
 
 const generateUuid = uuid.v4();
@@ -17,11 +18,16 @@ app.get('/notes', (req, res) => {
 });
 
 app.get('/api/notes', (req, res) => {
-    res.status(200).json(reviews);
+    fs.readFile('./db/db.json', (err, notes) => {
+        if (err){
+            console.log(err);
+        }else{
+            res.send(notes);
+        }
+    });
 })
 
 app.post('/api/notes', (req, res) => {
-    console.log(req);
 
     const { title, text } = req.body;
 
@@ -29,28 +35,26 @@ app.post('/api/notes', (req, res) => {
         const newNote = {
             title,
             text,
-            noteId: generateUuid(),
+            noteId: generateUuid,
         }
-    }
-
-    fs.readFile('./db/db.json', (err, notes) => {
-        if (err){
-            console.log(err);
-        }else{
-            let savedNotes = JSON.parse(notes);
-
-            savedNotes.push(newNote);
-            fs.writeFile('./db/db.json', JSON.stringify(savedNotes, null, 4));
-        }
-    })
+        fs.readFile('./db/db.json', (err, notes) => {
+            if (err){
+                console.log(err);
+            }else{
+                let parseNotes = JSON.parse(notes);
     
-    const response = {
-        status: 'success',
-        body: newNote,
-      };
+                parseNotes.push(newNote);
 
-    res.json(response)
-    console.log(res);
+                fs.writeFileSync('./db/db.json', JSON.stringify(parseNotes, null, 4));
+            }
+        })
+        
+        const response = {
+            status: 'success',
+            body: newNote,
+          };
+          res.json(newNote);
+    }
 })
 
 app.listen(PORT);

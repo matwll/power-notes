@@ -46,7 +46,7 @@ N/A
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-To use this application go to the webpage at *. You will be greated by the main page. Click on get started and you will see any saved notes  you have on the left. To enter a new note, enter a title in the title field, and the contntent of the note you want to save. Then click the save icon.
+To use this application go to the webpage at https://power-notes.herokuapp.com/. You will be greated by the main page. Click on get started and you will see any saved notes  you have on the left. To enter a new note, enter a title in the title field, and the contntent of the note you want to save. Then click the save icon.
 
 <!-- CONTRIBUTORING -->
 ## Contributing
